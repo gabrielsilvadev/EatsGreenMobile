@@ -1,14 +1,29 @@
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SvgProps } from "react-native-svg"
+import { RectButtonProps} from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import { Feather } from '@expo/vector-icons';
 
-import { RootStackScreenProps } from '../types';
+type Props =  RectButtonProps & {
+  title: String,
+  icon: React.FC<SvgProps>
+}
 
-export default function NotFoundScreen({ navigation }: RootStackScreenProps<'NotFound'>) {
+export default function NotFoundScreen({ title, icon ,...rest}: Props) {
+  const navigate = useNavigation()
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>This screen doesn't exist.</Text>
-      <TouchableOpacity onPress={() => navigation.replace('Root')} style={styles.link}>
-        <Text style={styles.linkText}>Go to home screen!</Text>
+       <Feather
+                name={icon}
+                size={100}
+                color='#397764'
+                style={{ marginRight: 15 }}
+              />
+      <Text style={styles.title}></Text>
+      <Text style={styles.title}>{title}</Text>
+      <TouchableOpacity onPress={() => navigate.goBack()} style={styles.link}>
+        <Text style={styles.linkText}>Volte para a pagina inicial</Text>
       </TouchableOpacity>
     </View>
   );
@@ -17,7 +32,8 @@ export default function NotFoundScreen({ navigation }: RootStackScreenProps<'Not
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    height: '100%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
